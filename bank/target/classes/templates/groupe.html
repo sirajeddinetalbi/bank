@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base.html}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bank</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid " layout:fragment="content"><br> <br>
+		<div class="row justify-content-md-center">
+			<table class="table table-warning table-striped w-75 p-3 j caption-top">
+				<caption>
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h5 class="fw-bold">Liste des groupes</h5>
+						</div>
+							<div class="col">
+								<form class="d-flex" role="search" th:action="@{/consultergroupe}" method="get"><input class="form-control me-2" type="text" placeholder="Code de groupe" aria-label="Search" name="codegroupes">
+									<button class="btn btn-outline-success" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                          </svg></button></form>
+						</div>
+					</div> <br>
+						<div class="row">
+							<button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                                 </svg> Ajouter</button>
+							<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="staticBackdropLabel">Ajouter une groupe</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+										<div class="modal-body">
+											<form id="ajout" th:action="@{/ajoutergroupes}">
+												<div class="mb-3"><label for="type" class="form-label">Nom de groupe </label><br> <input type="text" class="form-control" name="nom"></div>
+										</form>
+									</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary" form="ajout">Enregistrer</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <br>
+						<div class="row" th:if="${exception}">
+							<div class="alert alert-danger" role="alert">groupe introuvable !!</div>
+					</div>
+						<div class="row" th:if="${exception_ajoute}">
+							<div class="alert alert-danger" role="alert">Impossible d'ajouter !! verfier les champts de formulaire</div>
+					</div>
+					<div class="row" th:if="${exception_ajouteremploye}">
+							<div class="alert alert-danger" role="alert">impossible d'ajouter employee !!</div>
+					</div>
+				</div>
+			</caption>
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Nom de groupe</th>
+						<th scope="col">liste des employees</th>
+						<th scope="col">ajouter employee</th>
+				</tr>
+			</thead>
+				<tbody>
+					<tr th:each="gr : ${Groupes}">
+						<th scope="row" th:text="${gr.codeGroupe}"></th>
+						<td th:text="${gr.nomGroupe}"></td>
+						<td>
+							<div class="dropdown-center">
+								<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown" aria-expanded="false">Employes</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCenterBtn" th:each="g : ${gr.employes}">
+									<li th:text="${g.codeEmploye}"></li>
+							</ul>
+						</div>
+					</td>
+						<td>
+							<div>
+							
+											<form th:action="@{/ajouteremployeGroupe}">
+												<div class="mb-3"><label for="type" class="form-label">code de l'employe</label><br> <input type="number" class="form-control" name="codeemlpoye">
+												  
+												     <input type="hidden" class="form-control" th:value="${gr.codeGroupe}" name="codegroupe">
+												     
+												</div>
+												<div class="mb-3">
+												     <button type="submit" class="btn btn-primary" >Enregistrer</button>
+												</div>
+												
+										</form>
+									</div>
+										
+							
+						
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>

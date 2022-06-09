@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base.html}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comptes</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid " layout:fragment="content"><br> <br>
+		<div class="row justify-content-md-center ">
+			<form class="w-50 p-3 j shadow-lg p-3 mb-5 bg-body rounded" th:action="@{/operationcompte}" method="get">
+			    <legend th:text="'Effectuer une opération sur le compte '+${code}+' :'"></legend>
+				<ul class="list-group list-group-flush">
+				   <li class="list-group-item">
+				     <div class="mb-3">
+				       <label class="form-label"><h6> Type d'operation :</h6></label>
+					   <div class="form-check">
+					       <input class="form-check-input" type="radio" name="op" value="ver" id="flexRadioDefault1"  onchange="document.getElementById('virement').style.display='none'" checked="checked "> 
+					       <label class="form-check-label" for="flexRadioDefault1"> Versement </label>
+					   </div>
+					   <div class="form-check">
+					       <input class="form-check-input" type="radio" name="op" value="ret" id="flexRadioDefault2" onchange="document.getElementById('virement').style.display='none'"> 
+					       <label class="form-check-label" for="flexRadioDefault2"> Retrait </label>
+					   </div>
+					   <div class="form-check">
+					       <input class="form-check-input" type="radio" name="op" value="vir" id="flexRadioDefault3" onchange="document.getElementById('virement').style.display='block'"> 
+					       <label class="form-check-label" for="flexRadioDefault3"> virement </label>
+					   </div>
+					   <div class="form-check" id="virement" style="display:none">
+                           <input type="text" class="form-control"  placeholder="code de compte cible" name="codecompte2">
+					   </div>
+				     </div>
+				   </li>
+				   <li class="list-group-item">
+				       <div class="mb-3">
+                         <label for="exampleInputPassword1" class="form-label"><h6> Montant :</h6></label>
+                          <input type="number" class="form-control" name="montant" placeholder="montant de l'opération">
+                      </div>
+				       
+				    </li>
+				   <li class="list-group-item" >
+				     <input type="hidden" name="codecompte1" th:value="${code}" >
+				     <button type="submit" class="btn btn-primary">Confirmer</button>
+				    </li>
+				  </ul>
+		    </form>
+				
+	</div></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>

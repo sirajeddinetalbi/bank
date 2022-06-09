@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base.html}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comptes</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid " layout:fragment="content"><br> <br>
+		<div class="row justify-content-md-center">
+			<table class="table table-warning table-striped w-75 p-3 j caption-top">
+				<caption>
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h5 class="fw-bold">Hitorique des opérations</h5>
+						</div>
+							<div class="col">
+								<form class="d-flex" role="search" th:action="@{/consultercompteoperation}" method="get">
+								    <input class="form-control me-2" type="text" placeholder="code de compte" aria-label="Search" name="codecompte">
+									<button class="btn btn-outline-success" type="submit">
+									      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                          </svg>
+                                    </button>
+                                </form>
+						</div>
+					</div> <br>
+						<div class="row" th:if="${operation_exception}">
+							<div class="alert alert-danger" role="alert">impossible d'efectuer cette  operation !</div>
+					    </div>
+					    <div class="row" th:if="${succ}">
+							<div class="alert alert-success" role="alert">opération effectuée avec succès</div>
+					    </div>
+					     <div class="row" th:if="${exception_vide}">
+							<div class="alert alert-danger" role="alert">aucune opération pour ce compte </div>
+					    </div>
+				    </div>
+			</caption>
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Type</th>
+						<th scope="col">Montant</th>
+						<th scope="col">Code de Compte</th>
+						<th scope="col">Date Opération</th>
+				    </tr>
+			    </thead>
+				  <tbody>
+					<tr th:each="op : ${Operation}">
+						<th scope="row" th:text="${op.numeroOperation}"></th>
+						<td scope="row" th:text="${op.class.simpleName}"></td>
+						<td scope="row" th:text="${op.montant}"></td>
+						<td scope="row" th:text="${op.compte.codeCompte}"></td>
+						<td scope="row" th:text="${op.dateOperation}"></td>						
+				    </tr>
+			      </tbody>
+		</table>
+	</div></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>
